@@ -2,28 +2,26 @@
 
 namespace SlmQueueBeanstalkd\Factory;
 
+use Interop\Container\ContainerInterface;
 use Pheanstalk\Pheanstalk;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * PheanstalkFactory
  */
-class PheanstalkFactory implements FactoryInterface
+class PheanstalkFactory implements \Zend\ServiceManager\Factory\FactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        /** @var $beanstalkdOptions \SlmQueueBeanstalkd\Options\BeanstalkdOptions */
-        $beanstalkdOptions = $serviceLocator->get('SlmQueueBeanstalkd\Options\BeanstalkdOptions');
-        $connectionOptions = $beanstalkdOptions->getConnection();
 
-        return new Pheanstalk(
-            $connectionOptions->getHost(),
-            $connectionOptions->getPort(),
-            $connectionOptions->getTimeout()
-        );
-    }
+	public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+		/** @var $beanstalkdOptions \SlmQueueBeanstalkd\Options\BeanstalkdOptions */
+		$beanstalkdOptions = $container->get('SlmQueueBeanstalkd\Options\BeanstalkdOptions');
+		$connectionOptions = $beanstalkdOptions->getConnection();
+
+		return new Pheanstalk(
+			$connectionOptions->getHost(),
+			$connectionOptions->getPort(),
+			$connectionOptions->getTimeout()
+		);
+	}
+
+
 }
