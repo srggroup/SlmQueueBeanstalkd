@@ -4,7 +4,7 @@ namespace SlmQueueBeanstalkd\Factory;
 
 use Interop\Container\ContainerInterface;
 use SlmQueueBeanstalkd\Controller\BeanstalkdWorkerController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * BeanstalkdWorkerControllerFactory

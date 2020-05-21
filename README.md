@@ -11,7 +11,7 @@ Created by Jurian Sluiman and Michaël Gallego
 
 Requirements
 ------------
-* [Zend Framework 2](https://github.com/zendframework/zf2)
+* [Laminas](https://github.com/laminas/zf2)
 * [SlmQueue](https://github.com/juriansluiman/SlmQueue)
 * [Pda Pheanstalk](https://github.com/pda/pheanstalk)
 
@@ -145,7 +145,7 @@ class SimpleJob extends AbstractJob
 ### Executing jobs
 
 SlmQueueBeanstalkd provides a command-line tool that can be used to pop and execute jobs. You can type the following
-command within the public folder of your Zend Framework 2 application:
+command within the public folder of your Laminas application:
 
 `php index.php queue beanstalkd <queue> [--timeout=]`
 

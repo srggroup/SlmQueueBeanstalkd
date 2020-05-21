@@ -8,7 +8,7 @@ use Pheanstalk\Pheanstalk;
 /**
  * PheanstalkFactory
  */
-class PheanstalkFactory implements \Zend\ServiceManager\Factory\FactoryInterface
+class PheanstalkFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
 
 	public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
