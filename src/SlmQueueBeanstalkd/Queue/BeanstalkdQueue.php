@@ -53,7 +53,7 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface
      *
      * {@inheritDoc}
      */
-    public function push(JobInterface $job, array $options = array())
+    public function push(JobInterface $job, array $options = array()): void
     {
         $identifier = $this->pheanstalk->putInTube(
             $this->getTubeName(),
@@ -74,7 +74,7 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface
      *
      * {@inheritDoc}
      */
-    public function pop(array $options = array())
+    public function pop(array $options = array()): ?JobInterface
     {
         $job = $this->pheanstalk->reserveFromTube(
             $this->getTubeName(),
@@ -91,7 +91,7 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface
     /**
      * {@inheritDoc}
      */
-    public function delete(JobInterface $job)
+    public function delete(JobInterface $job): void
     {
         $this->pheanstalk->delete($job);
     }
