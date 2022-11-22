@@ -3,13 +3,14 @@
 namespace SlmQueueBeanstalkd\Factory;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use SlmQueueBeanstalkd\Options\QueueOptions;
 use SlmQueueBeanstalkd\Queue\BeanstalkdQueue;
 
 /**
  * BeanstalkdQueueFactory
  */
-class BeanstalkdQueueFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
+class BeanstalkdQueueFactory implements FactoryInterface
 {
 
 	public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
@@ -33,8 +34,8 @@ class BeanstalkdQueueFactory implements \Laminas\ServiceManager\Factory\FactoryI
     protected function getQueueOptions(ContainerInterface $container, $queueName)
     {
         $config = $container->get('config');
-        $queuesOptions = isset($config['slm_queue']['queues'])? $config['slm_queue']['queues'] : array();
-        $queueOptions = isset($queuesOptions[$queueName])? $queuesOptions[$queueName] : array();
+        $queuesOptions = $config['slm_queue']['queues'] ?? [];
+        $queueOptions = $queuesOptions[$queueName] ?? [];
 
         return new QueueOptions($queueOptions);
     }

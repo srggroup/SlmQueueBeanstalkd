@@ -17,7 +17,7 @@ interface BeanstalkdQueueInterface extends QueueInterface
      * @param  array $options
      * @return mixed
      */
-    public function release(JobInterface $job, array $options = array());
+    public function release(JobInterface $job, array $options = []);
 
     /**
      * Bury a job. When a job is buried, it won't be retrieved from the queue, unless the job is kicked
@@ -26,7 +26,7 @@ interface BeanstalkdQueueInterface extends QueueInterface
      * @param  array        $options
      * @return void
      */
-    public function bury(JobInterface $job, array $options = array());
+    public function bury(JobInterface $job, array $options = []);
 
     /**
      * Kick a specified number of buried jobs, hence making them "ready" again
