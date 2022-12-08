@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.1",
         "laminas/laminas-mvc": "~2.2 || ^3.1",
         "laminas/laminas-servicemanager": "~2.2 || ^3.3",
         "laminas/laminas-stdlib": "~2.2 || ^3.0.1",
