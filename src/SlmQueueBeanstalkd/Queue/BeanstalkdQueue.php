@@ -56,14 +56,14 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface
      */
     public function push(JobInterface $job, array $options = []): void
     {
-        $identifier = $this->pheanstalk->put(
+        $pheanstalkJob = $this->pheanstalk->put(
             $this->serializeJob($job),
 	        $options['priority'] ?? PheanstalkInterface::DEFAULT_PRIORITY,
 	        $options['delay'] ?? PheanstalkInterface::DEFAULT_DELAY,
 	        $options['ttr'] ?? PheanstalkInterface::DEFAULT_TTR
         );
 
-        $job->setId($identifier);
+        $job->setId($pheanstalkJob->getId());
     }
 
     /**
