@@ -4,18 +4,19 @@ namespace SlmQueueBeanstalkd\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use SlmQueue\Job\JobPluginManager;
 use SlmQueueBeanstalkd\Options\QueueOptions;
 use SlmQueueBeanstalkd\Queue\BeanstalkdQueue;
 
 /**
  * BeanstalkdQueueFactory
  */
-class BeanstalkdQueueFactory implements FactoryInterface
-{
+class BeanstalkdQueueFactory implements FactoryInterface {
 
-	public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-		$pheanstalk       = $container->get('SlmQueueBeanstalkd\Service\PheanstalkService');
-		$jobPluginManager = $container->get('SlmQueue\Job\JobPluginManager');
+
+	public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null) {
+		$pheanstalk = $container->get('SlmQueueBeanstalkd\Service\PheanstalkService');
+		$jobPluginManager = $container->get(JobPluginManager::class);
 
 		$queueOptions = $this->getQueueOptions($parentLocator, $requestedName);
 
@@ -26,17 +27,16 @@ class BeanstalkdQueueFactory implements FactoryInterface
 	/**
 	 * Returns custom beanstalkd options for specified queue
 	 *
-	 * @param ContainerInterface $container
-	 * @param string             $queueName
-	 *
+	 * @param string $queueName
 	 * @return QueueOptions
 	 */
-    protected function getQueueOptions(ContainerInterface $container, $queueName)
-    {
-        $config = $container->get('config');
-        $queuesOptions = $config['slm_queue']['queues'] ?? [];
-        $queueOptions = $queuesOptions[$queueName] ?? [];
+	protected function getQueueOptions(ContainerInterface $container, $queueName) {
+		$config = $container->get('config');
+		$queuesOptions = $config['slm_queue']['queues'] ?? [];
+		$queueOptions = $queuesOptions[$queueName] ?? [];
 
-        return new QueueOptions($queueOptions);
-    }
+		return new QueueOptions($queueOptions);
+	}
+
+
 }

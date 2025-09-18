@@ -2,10 +2,10 @@
 
 namespace SlmQueueBeanstalkd\Worker\Exception;
 
-use SlmQueueBeanstalkd\Exception\ExceptionInterface;
 use InvalidArgumentException;
+use SlmQueueBeanstalkd\Exception\ExceptionInterface;
 
-class InvalidQueueException extends InvalidArgumentException implements ExceptionInterface
-{
+class InvalidQueueException extends InvalidArgumentException implements ExceptionInterface {
+
 
 }

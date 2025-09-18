@@ -7,30 +7,29 @@ use Laminas\Stdlib\AbstractOptions;
 /**
  * BeanstalkdOptions
  */
-class BeanstalkdOptions extends AbstractOptions
-{
-    /**
-     * @var ConnectionOptions
-     */
-    protected $connection;
+class BeanstalkdOptions extends AbstractOptions {
 
-    /**
-     * Set the connection options
-     *
-     * @param array $options
-     */
-    public function setConnection(array $options)
-    {
-        $this->connection = new ConnectionOptions($options);
-    }
 
-    /**
-     * Get the connection options
-     *
-     * @return ConnectionOptions
-     */
-    public function getConnection()
-    {
-        return $this->connection;
-    }
+	/** @var ConnectionOptions */
+	protected $connection;
+
+
+	/**
+	 * Set the connection options
+	 */
+	public function setConnection(array $options) {
+		$this->connection = new ConnectionOptions($options);
+	}
+
+
+	/**
+	 * Get the connection options
+	 *
+	 * @return ConnectionOptions
+	 */
+	public function getConnection() {
+		return $this->connection;
+	}
+
+
 }

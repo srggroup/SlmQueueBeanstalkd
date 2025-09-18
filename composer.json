@@ -1,52 +1,65 @@
 {
-    "name": "slm/queue-beanstalkd",
-    "description": "Laminas module that integrates with Beanstalkd queuing system",
-    "license": "BSD-3-Clause",
-    "type": "library",
-    "keywords": [
-        "zf2",
-        "queue",
-        "job",
-        "beanstalk",
-        "beanstalkd",
-        "pheanstalk"
-    ],
-    "homepage": "https://github.com/juriansluiman/SlmQueueBeanstalkd",
-    "authors": [
-        {
-            "name": "Jurian Sluiman",
-            "email": "jurian@juriansluiman.nl",
-            "homepage": "http://juriansluiman.nl"
-        },
-        {
-            "name": "Michaël Gallego",
-            "email": "mic.gallego@gmail.com",
-            "homepage": "http://www.michaelgallego.fr"
-        }
-    ],
-    "require": {
-        "php": "^8.1",
-        "laminas/laminas-mvc": "~2.2 || ^3.1",
-        "laminas/laminas-servicemanager": "~2.2 || ^3.3",
-        "laminas/laminas-stdlib": "~2.2 || ^3.0.1",
-        "slm/queue": "^3.0",
-        "pda/pheanstalk": "~4.0.4"
-    },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.7",
-        "phpunit/phpunit": "^9.5"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.4.x-dev"
-        }
-    },
-    "autoload": {
-        "psr-0": {
-            "SlmQueueBeanstalkd": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
-    }
+	"name": "slm/queue-beanstalkd",
+	"description": "Laminas module that integrates with Beanstalkd queuing system",
+	"license": "BSD-3-Clause",
+	"type": "library",
+	"keywords": [
+		"zf2",
+		"queue",
+		"job",
+		"beanstalk",
+		"beanstalkd",
+		"pheanstalk"
+	],
+	"homepage": "https://github.com/juriansluiman/SlmQueueBeanstalkd",
+	"authors": [
+		{
+			"name": "Jurian Sluiman",
+			"email": "jurian@juriansluiman.nl",
+			"homepage": "http://juriansluiman.nl"
+		},
+		{
+			"name": "Michaël Gallego",
+			"email": "mic.gallego@gmail.com",
+			"homepage": "http://www.michaelgallego.fr"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://composer.srggroup.dev/"
+		}
+	],
+	"require": {
+		"php": "^8.4",
+		"laminas/laminas-mvc": "^3.8.0",
+		"laminas/laminas-servicemanager": "^3.23.1",
+		"laminas/laminas-stdlib": "^3.14.0",
+		"slm/queue": "dev-master",
+		"pda/pheanstalk": "~4.0.4"
+	},
+	"require-dev": {
+		"srggroup/srg_standards": "v2.0.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^v1.1.2",
+		"vimeo/psalm": "^6.13.1"
+	},
+	"autoload": {
+		"psr-0": {
+			"SlmQueueBeanstalkd": "src/"
+		},
+		"classmap": [
+			"./Module.php"
+		]
+	},
+	"extra": {
+		"phpcodesniffer-search-depth": 5,
+		"branch-alias": {
+			"dev-master": "0.4.x-dev"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
 }

@@ -7,7 +7,6 @@ use SlmQueue\Job\JobInterface;
 use SlmQueue\Queue\QueueInterface;
 use SlmQueue\Worker\AbstractWorker;
 use SlmQueue\Worker\Event\ProcessJobEvent;
-use SlmQueue\Worker\WorkerEvent;
 use SlmQueueBeanstalkd\Queue\BeanstalkdQueueInterface;
 
 /**
@@ -15,9 +14,7 @@ use SlmQueueBeanstalkd\Queue\BeanstalkdQueueInterface;
  */
 class BeanstalkdWorker extends AbstractWorker {
 
-	/**
-	 * {@inheritDoc}
-	 */
+
 	public function processJob(JobInterface $job, QueueInterface $queue): int {
 		if (!$queue instanceof BeanstalkdQueueInterface) {
 			return ProcessJobEvent::JOB_STATUS_UNKNOWN;
@@ -39,4 +36,6 @@ class BeanstalkdWorker extends AbstractWorker {
 			return ProcessJobEvent::JOB_STATUS_FAILURE_RECOVERABLE;
 		}
 	}
+
+
 }
