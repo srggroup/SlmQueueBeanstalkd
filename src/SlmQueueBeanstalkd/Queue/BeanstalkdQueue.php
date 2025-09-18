@@ -48,8 +48,6 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	 *      - priority: the lower the priority is, the sooner the job get popped from the queue (default to 1024)
 	 *      - delay: the delay in seconds before a job become available to be popped (default to 0 - no delay -)
 	 *      - ttr: in seconds, how much time a job can be reserved for (default to 60)
-	 *
-	 * {@inheritDoc}
 	 */
 	public function push(JobInterface $job, array $options = []): void {
 		$pheanstalkJob = $this->pheanstalk->put(
@@ -68,8 +66,6 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	 *      - timeout: by default, when we ask for a job, it will block until a job is found (possibly forever if
 	 *                 new jobs never come). If you set a timeout (in seconds), it will return after the timeout is
 	 *                 expired, even if no jobs were found
-	 *
-	 * {@inheritDoc}
 	 */
 	public function pop(array $options = []): ?JobInterface {
 		$job = $this->pheanstalk->reserveWithTimeout($options['timeout'] ?? null);

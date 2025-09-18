@@ -18,7 +18,7 @@ class BeanstalkdQueueFactory implements FactoryInterface {
 		$pheanstalk = $container->get('SlmQueueBeanstalkd\Service\PheanstalkService');
 		$jobPluginManager = $container->get(JobPluginManager::class);
 
-		$queueOptions = $this->getQueueOptions($parentLocator, $requestedName);
+		$queueOptions = $this->getQueueOptions($container, $requestedName);
 
 		return new BeanstalkdQueue($pheanstalk, $requestedName, $jobPluginManager, $queueOptions);
 	}
