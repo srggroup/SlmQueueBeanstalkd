@@ -13,10 +13,8 @@ interface BeanstalkdQueueInterface extends QueueInterface {
 
 	/**
 	 * Put a job that was popped back to the queue
-	 *
-	 * @return mixed
 	 */
-	public function release(JobInterface $job, array $options = []): mixed;
+	public function release(JobInterface $job, array $options = []): void;
 
 
 	/**
