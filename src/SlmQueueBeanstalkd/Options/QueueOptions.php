@@ -7,26 +7,15 @@ use Laminas\Stdlib\AbstractOptions;
 class QueueOptions extends AbstractOptions {
 
 
-	/** @var string */
-	protected $tube = '';
+	protected string $tube = '';
 
 
-	/**
-	 * Get beanstalkd tube name for queue
-	 *
-	 * @return string
-	 */
-	public function getTube() {
+	public function getTube(): string {
 		return $this->tube;
 	}
 
 
-	/**
-	 * Set beanstalkd tube for queue
-	 *
-	 * @param string $tube
-	 */
-	public function setTube($tube) {
+	public function setTube($tube): void {
 		$this->tube = $tube;
 	}
 

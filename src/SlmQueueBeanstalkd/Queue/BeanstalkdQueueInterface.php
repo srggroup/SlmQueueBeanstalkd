@@ -16,7 +16,7 @@ interface BeanstalkdQueueInterface extends QueueInterface {
 	 *
 	 * @return mixed
 	 */
-	public function release(JobInterface $job, array $options = []);
+	public function release(JobInterface $job, array $options = []): mixed;
 
 
 	/**
@@ -24,7 +24,7 @@ interface BeanstalkdQueueInterface extends QueueInterface {
 	 *
 	 * @return void
 	 */
-	public function bury(JobInterface $job, array $options = []);
+	public function bury(JobInterface $job, array $options = []): void;
 
 
 	/**
@@ -33,7 +33,7 @@ interface BeanstalkdQueueInterface extends QueueInterface {
 	 * @param  int $max The maximum jobs to kick
 	 * @return int Number of jobs kicked
 	 */
-	public function kick($max);
+	public function kick(int $max): int;
 
 
 }

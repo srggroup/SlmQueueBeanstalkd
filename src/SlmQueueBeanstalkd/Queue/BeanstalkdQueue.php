@@ -2,39 +2,27 @@
 
 namespace SlmQueueBeanstalkd\Queue;
 
-use Pheanstalk\Contract\PheanstalkInterface;
-use Pheanstalk\Job as PheanstalkJob;
+use Pheanstalk\Contract\PheanstalkPublisherInterface;
 use Pheanstalk\Pheanstalk;
+use Pheanstalk\Values\JobId;
+use Pheanstalk\Values\TubeName;
 use SlmQueue\Job\JobInterface;
 use SlmQueue\Job\JobPluginManager;
 use SlmQueue\Queue\AbstractQueue;
 use SlmQueueBeanstalkd\Options\QueueOptions;
 
-/**
- * BeanstalkdQueue
- */
 class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface {
 
 
-	/** @var Pheanstalk */
-	protected $pheanstalk;
-
-	/** @var string */
-	protected $tubeName;
+	protected string $tubeName;
 
 
-	/**
-	 * Constructor
-	 *
-	 * @param string           $name
-	 */
 	public function __construct(
-		Pheanstalk $pheanstalk,
+		protected Pheanstalk $pheanstalk,
 		$name,
 		JobPluginManager $jobPluginManager,
 		?QueueOptions $options = null
 	) {
-		$this->pheanstalk = $pheanstalk;
 		$this->tubeName = $name;
 		if (($options !== null) && $options->getTube()) {
 			$this->tubeName = $options->getTube();
@@ -43,18 +31,12 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	}
 
 
-	/**
-	 * Valid options are:
-	 *      - priority: the lower the priority is, the sooner the job get popped from the queue (default to 1024)
-	 *      - delay: the delay in seconds before a job become available to be popped (default to 0 - no delay -)
-	 *      - ttr: in seconds, how much time a job can be reserved for (default to 60)
-	 */
 	public function push(JobInterface $job, array $options = []): void {
 		$pheanstalkJob = $this->pheanstalk->put(
 			$this->serializeJob($job),
-			$options['priority'] ?? PheanstalkInterface::DEFAULT_PRIORITY,
-			$options['delay'] ?? PheanstalkInterface::DEFAULT_DELAY,
-			$options['ttr'] ?? PheanstalkInterface::DEFAULT_TTR
+			$options['priority'] ?? PheanstalkPublisherInterface::DEFAULT_PRIORITY,
+			$options['delay'] ?? PheanstalkPublisherInterface::DEFAULT_DELAY,
+			$options['ttr'] ?? PheanstalkPublisherInterface::DEFAULT_TTR
 		);
 
 		$job->setId($pheanstalkJob->getId());
@@ -70,7 +52,7 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	public function pop(array $options = []): ?JobInterface {
 		$job = $this->pheanstalk->reserveWithTimeout($options['timeout'] ?? null);
 
-		if (!$job instanceof PheanstalkJob) {
+		if ($job === null) {
 			return null;
 		}
 
@@ -79,7 +61,7 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 
 
 	public function delete(JobInterface $job): void {
-		$this->pheanstalk->delete($job);
+		$this->pheanstalk->delete(new JobId($job->getId()));
 	}
 
 
@@ -90,11 +72,11 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	 *
 	 * {@inheritDoc}
 	 */
-	public function release(JobInterface $job, array $options = []) {
+	public function release(JobInterface $job, array $options = []): void {
 		$this->pheanstalk->release(
-			$job,
-			$options['priority'] ?? PheanstalkInterface::DEFAULT_PRIORITY,
-			$options['delay'] ?? PheanstalkInterface::DEFAULT_DELAY
+			new JobId($job->getId()),
+			$options['priority'] ?? PheanstalkPublisherInterface::DEFAULT_PRIORITY,
+			$options['delay'] ?? PheanstalkPublisherInterface::DEFAULT_DELAY
 		);
 	}
 
@@ -105,10 +87,10 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	 *
 	 * {@inheritDoc}
 	 */
-	public function bury(JobInterface $job, array $options = []) {
+	public function bury(JobInterface $job, array $options = []): void {
 		$this->pheanstalk->bury(
-			$job,
-			$options['priority'] ?? PheanstalkInterface::DEFAULT_PRIORITY
+			new JobId($job->getId()),
+			$options['priority'] ?? PheanstalkPublisherInterface::DEFAULT_PRIORITY
 		);
 	}
 
@@ -116,8 +98,8 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function kick($max) {
-		$this->pheanstalk->useTube($this->getTubeName());
+	public function kick(int $max): int {
+		$this->pheanstalk->useTube(new TubeName($this->getTubeName()));
 
 		return $this->pheanstalk->kick($max);
 	}
@@ -125,10 +107,8 @@ class BeanstalkdQueue extends AbstractQueue implements BeanstalkdQueueInterface 
 
 	/**
 	 * Get the name of the beanstalkd tube that is used for storing queue
-	 *
-	 * @return string
 	 */
-	public function getTubeName() {
+	public function getTubeName(): string {
 		return $this->tubeName;
 	}
 

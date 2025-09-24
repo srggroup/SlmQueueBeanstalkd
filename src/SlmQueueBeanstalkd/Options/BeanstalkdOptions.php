@@ -4,30 +4,18 @@ namespace SlmQueueBeanstalkd\Options;
 
 use Laminas\Stdlib\AbstractOptions;
 
-/**
- * BeanstalkdOptions
- */
 class BeanstalkdOptions extends AbstractOptions {
 
 
-	/** @var ConnectionOptions */
-	protected $connection;
+	protected ConnectionOptions $connection;
 
 
-	/**
-	 * Set the connection options
-	 */
-	public function setConnection(array $options) {
+	public function setConnection(array $options): void {
 		$this->connection = new ConnectionOptions($options);
 	}
 
 
-	/**
-	 * Get the connection options
-	 *
-	 * @return ConnectionOptions
-	 */
-	public function getConnection() {
+	public function getConnection(): ConnectionOptions {
 		return $this->connection;
 	}
 

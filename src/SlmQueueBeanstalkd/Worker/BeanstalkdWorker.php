@@ -7,19 +7,11 @@ use SlmQueue\Job\JobInterface;
 use SlmQueue\Queue\QueueInterface;
 use SlmQueue\Worker\AbstractWorker;
 use SlmQueue\Worker\Event\ProcessJobEvent;
-use SlmQueueBeanstalkd\Queue\BeanstalkdQueueInterface;
 
-/**
- * Worker for Beanstalkd
- */
 class BeanstalkdWorker extends AbstractWorker {
 
 
 	public function processJob(JobInterface $job, QueueInterface $queue): int {
-		if (!$queue instanceof BeanstalkdQueueInterface) {
-			return ProcessJobEvent::JOB_STATUS_UNKNOWN;
-		}
-
 		/**
 		 * In Beanstalkd, if an error occurs (exception for instance), the job
 		 * is automatically reinserted into the queue after a configured delay
